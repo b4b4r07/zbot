@@ -1,0 +1,24 @@
+{
+  "name": "zbot",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "botkit": "~0.1.1",
+    "forever": "~0.15.1",
+    "node-github": "~0.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/b4b4r07/zbot.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/b4b4r07/zbot/issues"
+  }
+}

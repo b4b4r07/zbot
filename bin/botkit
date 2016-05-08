@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 
-'use strict';
+var Botkit = require('botkit');
+var Fs = require('fs');
+var Path = require('path');
 
-const botkit = require('botkit');
-const fs = require('fs');
-const path = require('path');
-
-const controller = botkit.slackbot({
+controller = Botkit.slackbot({
     debug: false
 });
 
@@ -14,12 +12,24 @@ controller.spawn({
     token: process.env.BOTKIT_SLACK_TOKEN
 }).startRTM();
 
-const pluginPath = path.resolve(__dirname, 'scripts');
-fs.readdir(pluginsPath, (err, list) => {
-    for (const file of list) {
-        const pluginPath = path.resolve(pluginsPath, file);
-        require(pluginPath)(controller)
+var load = function(path, file) {
+    var ext = Path.extname(file);
+    var full = Path.join(path, Path.basename(file, ext));
+
+    try {
+        var script = require(full);
+        if (typeof script === 'function') {
+            script(this);
+        }
+    } catch(error) {
+        process.exit(1);
     }
+};
+
+var path = Path.resolve('.', 'scripts');
+
+Fs.readdirSync(path).sort().forEach(function(file) {
+    load(path, file);
 });
 
-// vim:ft=javascript
+// vim: ft=javascript
