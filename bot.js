@@ -6,16 +6,16 @@ var controller = botkit.slackbot({
 });
 
 controller.spawn({
-    token: process.env.SLACK_TOKEN
+    token: process.env.BOTKIT_SLACK_TOKEN
 }).startRTM();
 
 var child_process = require('child_process');
 
 function updateSelf(bot, message){
-    child_process.exec('git reset --hard origin/master', function(error, stdout, stderr){
+    child_process.exec('git reset --hard origin/master', function(error, stdout, stderr) {
         bot.reply(message, 'Botが更新されました！');
         bot.reply(message, 'Botを再起動します');
-        setTimeout(function(){
+        setTimeout(function() {
             process.exit();
         }, 2000);
     });
@@ -24,8 +24,8 @@ function updateSelf(bot, message){
 controller.hears(['update'], 'direct_mention', function(bot, message) {
     bot.reply(message, 'Botのアップデートを開始します');
 
-    child_process.exec('git fetch', function(error, stdout, stderr){
-        child_process.exec('git log master..origin/master', function(error, stdout, stderr){
+    child_process.exec('git fetch', function(error, stdout, stderr) {
+        child_process.exec('git log master..origin/master', function(error, stdout, stderr) {
             if (stdout == "") {
                 bot.reply(message, 'Botは最新です');
             } else {
@@ -35,24 +35,24 @@ controller.hears(['update'], 'direct_mention', function(bot, message) {
                     convo.ask('アップデートを行いますか？(y/n)', [
                         {
                             pattern: bot.utterances.yes,
-                            callback: function(response, convo){
-                            updateSelf(bot, message);
-                            convo.next();
-                        }
+                            callback: function(response, convo) {
+                                updateSelf(bot, message);
+                                convo.next();
+                            }
                         },
                         {
                             pattern: bot.utterances.no,
                             callback: function(response, convo) {
-                            bot.reply(message, 'アップデートを中止します');
-                            convo.next();
-                        }
+                                bot.reply(message, 'アップデートを中止します');
+                                convo.next();
+                            }
                         },
                         {
                             pattern: bot.utterances.yes,
                             callback: function(response, convo) {
-                            updateSelf(bot, message);
-                            convo.next();
-                        }
+                                updateSelf(bot, message);
+                                convo.next();
+                            }
                         },
                         {
                             default: true,
