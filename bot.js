@@ -6,7 +6,7 @@ var controller = botkit.slackbot({
 });
 
 controller.spawn({
-    token: SLACK_TOKEN
+    token: process.env.SLACK_TOKEN
 }).startRTM();
 
 var child_process = require('child_process');
