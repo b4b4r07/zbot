@@ -1,7 +1,7 @@
 {
   "name": "zbot",
   "version": "0.0.0",
-  "description": "",
+  "description": "slack bot for zplug",
   "main": "index.js",
   "dependencies": {
     "botkit": "~0.1.1",
