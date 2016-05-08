@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const botkit = require('botkit');
+const fs = require('fs');
+const path = require('path');
+
+const controller = botkit.slackbot({
+    debug: false
+});
+
+controller.spawn({
+    token: process.env.BOTKIT_SLACK_TOKEN
+}).startRTM();
+
+const pluginPath = path.resolve(__dirname, 'scripts');
+fs.readdir(pluginsPath, (err, list) => {
+    for (const file of list) {
+        const pluginPath = path.resolve(pluginsPath, file);
+        require(pluginPath)(controller)
+    }
+});
+
+// vim:ft=javascript
